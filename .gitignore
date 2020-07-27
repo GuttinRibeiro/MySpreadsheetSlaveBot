@@ -9,6 +9,9 @@ __pycache__/
 # Avoid being dummy
 creds.json
 
+# VS stuff
+.vs/
+
 # Distribution / packaging
 .Python
 build/
