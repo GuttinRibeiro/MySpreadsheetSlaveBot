@@ -1,5 +1,6 @@
 from oauth2client.service_account import ServiceAccountCredentials
 from googleapiclient import discovery
+import numpy as np
 
 class GoogleAPIHandler:
     def __generate_spreadsheet(self, scope, filename="creds.json", api='sheets', version='v4'):
@@ -28,7 +29,10 @@ class GoogleAPIHandler:
         column_number = chr(column_number+97).upper()
         desired_range = sheet+'!'+column_number+str(start)+':'+column_number+str(stop)
         result = self.__spreadsheet.values().get(spreadsheetId=self.__spreadsheet_id, range=desired_range).execute()
-        return result.get('values', [])
+        ret = result.get('values', [])
+        if not ret:
+            return []
+        return np.hstack(ret).tolist()
 
     def get_cell(self, sheet, column, row):
         column = chr(column+97).upper()
